@@ -1,0 +1,99 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "1. Start Backend Server (Django)",
+      "type": "shell",
+      "command": "${workspaceFolder}/backend/venv/Scripts/python.exe manage.py runserver 127.0.0.1:8000",
+      "options": {
+        "cwd": "${workspaceFolder}/backend"
+      },
+      "isBackground": true,
+      "problemMatcher": {
+        "pattern": {
+          "regexp": "^$"
+        },
+        "background": {
+          "activeOnStart": true,
+          "beginsPattern": "^Watching for file changes.*",
+          "endsPattern": "^Starting development server at.*"
+        }
+      },
+      "presentation": {
+        "reveal": "always",
+        "panel": "dedicated",
+        "group": "servers"
+      }
+    },
+    {
+      "label": "2. Start Frontend Server (React Vite)",
+      "type": "shell",
+      "command": "cmd /c \"npm run dev\"",
+      "options": {
+        "cwd": "${workspaceFolder}/frontend"
+      },
+      "isBackground": true,
+      "problemMatcher": {
+        "pattern": {
+          "regexp": "^$"
+        },
+        "background": {
+          "activeOnStart": true,
+          "beginsPattern": ".*VITE.*",
+          "endsPattern": ".*Local:.*http://localhost:.*"
+        }
+      },
+      "presentation": {
+        "reveal": "always",
+        "panel": "dedicated",
+        "group": "servers"
+      }
+    },
+    {
+      "label": "▶ Run Full Stack (Backend + Frontend)",
+      "dependsOn": [
+        "1. Start Backend Server (Django)",
+        "2. Start Frontend Server (React Vite)"
+      ],
+      "dependsOrder": "parallel",
+      "problemMatcher": [],
+      "group": {
+        "kind": "build",
+        "isDefault": true
+      }
+    },
+    {
+      "label": "Run Database Migrations",
+      "type": "shell",
+      "command": "${workspaceFolder}/backend/venv/Scripts/python.exe manage.py migrate",
+      "options": {
+        "cwd": "${workspaceFolder}/backend"
+      },
+      "presentation": {
+        "reveal": "always",
+        "panel": "new"
+      }
+    },
+    {
+      "label": "Run Automated Tests",
+      "type": "shell",
+      "command": "${workspaceFolder}/backend/venv/Scripts/python.exe manage.py test complaints",
+      "options": {
+        "cwd": "${workspaceFolder}/backend"
+      },
+      "presentation": {
+        "reveal": "always",
+        "panel": "new"
+      }
+    },
+    {
+      "label": "Stop All Local Servers",
+      "type": "shell",
+      "command": "cmd /c \"${workspaceFolder}/stop_servers.bat\"",
+      "presentation": {
+        "reveal": "always",
+        "panel": "new"
+      }
+    }
+  ]
+}
